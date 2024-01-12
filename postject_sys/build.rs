@@ -12,6 +12,7 @@ fn main() {
         println!("cargo:rerun-if-changed=cmake/postject/postject-api.h");
         cc::Build::new()
             .file("src/postjectee.c")
+            .flag_if_supported("-Wno-unused-parameter")
             .compile("postjectee");
 
         let api_bindings = bindgen::builder()
