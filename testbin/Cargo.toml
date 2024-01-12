@@ -1,0 +1,18 @@
+[package]
+name = "testbin"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+editres = { path = "../editres" }
+bincode = "1"
+
+[[bin]]
+name = "single"
+
+[[bin]]
+name = "double"
+
+[[bin]]
+name = "dup"

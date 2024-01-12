@@ -1,0 +1,4 @@
+[workspace]
+members = ["postject_sys", "testbin", "editres", "editres_cli"]
+
+resolver = "2"
