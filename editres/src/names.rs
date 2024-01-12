@@ -16,6 +16,9 @@ The convention for segment names is to use all-uppercase letters preceded by dou
 the convention for section names is to use all-lowercase letters preceded by double underscores (for example, __text).
 */
 pub(crate) fn macho_segment_name(id: NonZeroU16) -> CString {
+    // https://github.com/nodejs/postject/issues/1
+    // Mutiple sections under the same segment causes a crash.
+    // As a workaround, a segment is added for each resource.
     CString::new(format!("__EDITRES{id}")).unwrap()
 }
 pub(crate) fn macho_section_name(id: NonZeroU16) -> CString {
