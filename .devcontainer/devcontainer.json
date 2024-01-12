@@ -1,3 +1,4 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/rust:latest"
+    "image": "mcr.microsoft.com/devcontainers/rust:latest",
+    "postCreateCommand": "bash -i -c 'apt-get update && apt-get install -y cmake clang'"
 }
