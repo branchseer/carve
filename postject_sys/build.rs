@@ -15,7 +15,7 @@ fn main() {
         println!("cargo:rerun-if-changed=src/postjectee.c");
         println!("cargo:rerun-if-changed=src/postjectee.h");
         println!("cargo:rerun-if-changed=cmake/postject/postject-api.h");
-        let mut cc_build = cc::Build::new()
+        cc::Build::new()
             .file("src/postjectee.c")
             .flag_if_supported("-Wno-unused-parameter")
             .compile("postjectee");
@@ -40,8 +40,7 @@ fn main() {
         println!("cargo:rerun-if-changed=cmake/src/postjector.cpp");
         println!("cargo:rerun-if-changed=cmake/CMakeLists.txt");
 
-        let dst = cmake::Config::new("cmake")
-            .build();
+        let dst = cmake::Config::new("cmake").build();
 
         println!(
             "cargo:rustc-link-search=native={}",
