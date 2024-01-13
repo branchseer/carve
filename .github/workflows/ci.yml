@@ -14,14 +14,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-2019, ubuntu-latest]
+        include:
+          - os: windows-2019
+            target: x86_64-pc-windows-msvc
+          - os: windows-2019
+            target: i686-pc-windows-msvc
+          - os: windows-2019
+            target: x86_64-pc-windows-gnu
+          - os: windows-2019
+            target: i686-pc-windows-gnu
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Build
-      run: cargo build --release --all-features --verbose
+      run: |
+        rustup target add ${{ matrix.target }}
+        cargo build --target ${{ matrix.target }} --release --all-features --verbose
     - name: Run tests
-      run: cargo test --release --all-features --verbose
+      run: cargo test --target ${{ matrix.target }} --release --all-features --verbose
   
