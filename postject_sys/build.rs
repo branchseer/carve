@@ -32,19 +32,11 @@ fn main() {
         println!("cargo:rerun-if-changed=cmake/CMakeLists.txt");
 
         let dst = cmake::Config::new("cmake")
-            .build_target("postjector")
             .build();
+
         println!(
             "cargo:rustc-link-search=native={}",
-            dst.join("build").display()
-        );
-        println!(
-            "cargo:rustc-link-search=native={}",
-            dst.join("build/postject").display()
-        );
-        println!(
-            "cargo:rustc-link-search=native={}",
-            dst.join("build/postject/vendor/lief").display()
+            dst.join("lib").display()
         );
         println!("cargo:rustc-link-lib=static=postjector");
         println!("cargo:rustc-link-lib=static=postject");

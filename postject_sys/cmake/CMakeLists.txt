@@ -16,3 +16,6 @@ add_library(postjector
     src/postjector.cpp
 )
 target_link_libraries(postjector postject)
+
+set_target_properties(postject_wasm PROPERTIES EXCLUDE_FROM_ALL TRUE)
+install(TARGETS postjector postject)
