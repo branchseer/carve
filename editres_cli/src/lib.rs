@@ -14,10 +14,12 @@ pub fn list<P: AsRef<Path>>(path: P) -> anyhow::Result<Vec<(String, bool)>> {
 fn write_executable(path: &mut PathBuf, content: &[u8]) -> io::Result<()> {
     let mut open_options = OpenOptions::new();
     open_options.create(true).write(true);
-    if cfg!(unix) {
+    #[cfg(unix)]
+    {
         std::os::unix::fs::OpenOptionsExt::mode(&mut open_options, 0o755);
     }
-    if cfg!(windows) {
+    #[cfg(windows)]
+    {
         path.set_extension("exe");
     }
     let mut file = open_options.open(path)?;
