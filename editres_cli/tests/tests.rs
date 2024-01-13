@@ -1,4 +1,5 @@
 use editres_cli::{inject, list};
+use std::io::{stderr, Write};
 use std::sync::Once;
 use std::vec;
 use std::{
@@ -32,6 +33,10 @@ fn temp_path() -> PathBuf {
 }
 
 fn get_printed_resources(output: &Output) -> Vec<Option<&[u8]>> {
+    if !output.status.success() {
+        stderr().lock().write_all(&output.stderr).unwrap();
+        panic!("Failed to get printed resources. Exit status: {:?}", output.status);
+    }
     assert_eq!(output.status.success(), true);
     bincode::deserialize(&output.stdout).unwrap()
 }
