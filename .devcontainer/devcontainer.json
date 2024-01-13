@@ -1,4 +1,4 @@
 {
     "image": "mcr.microsoft.com/devcontainers/rust:latest",
-    "postCreateCommand": "sudo bash -i -c 'apt-get update -y && apt-get install -y cmake clang'"
+    "postCreateCommand": "sudo bash -i -c 'curl -sL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs cmake clang'"
 }
