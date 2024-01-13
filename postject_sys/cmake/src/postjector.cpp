@@ -1,13 +1,14 @@
 #include "./postjector.h"
 #include "../postject/src/postject.hpp"
 #include <string>
+#include <LIEF/logging.hpp>
+#include <mutex>
 
 static inline std::vector<uint8_t> buf2vector(PostjectorBuffer buffer) {
   return {buffer.head, buffer.head + buffer.size};
 }
 
 extern "C" {
-
   PostjectorInjectResultType POSTJECTOR_INJECT_ALREADY_EXISTS =
       static_cast<PostjectorInjectResultType>(
           postject::InjectResultType::kAlreadyExists);
@@ -23,6 +24,11 @@ extern "C" {
       const char* elf_note_name, const char* macho_segment_name,
       const char* macho_section_name, const char* pe_resource_name,
       char override) {
+    static std::once_flag config_lier_log_once;
+    std::call_once(config_lier_log_once, [] {
+        // Suppress warning on success injections: https://github.com/nodejs/postject/issues/83
+        LIEF::logging::set_level(LIEF::logging::LOG_ERR);
+    });
     std::vector<uint8_t> executable_buffer = buf2vector(executable);
     std::vector<uint8_t> resource_buffer = buf2vector(resource);
     bool override_bool = override;
