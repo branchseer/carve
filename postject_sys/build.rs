@@ -29,6 +29,7 @@ fn main() {
     {
         println!("cargo:rerun-if-changed=cmake/src/postjector.h");
         println!("cargo:rerun-if-changed=cmake/src/postjector.cpp");
+        println!("cargo:rerun-if-changed=cmake/CMakeLists.txt");
 
         let dst = cmake::Config::new("cmake")
             .build_target("postjector")
