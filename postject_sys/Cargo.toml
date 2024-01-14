@@ -14,7 +14,7 @@ exclude = [
 
 [features]
 injector = ["cmake", "bindgen", "link-cplusplus"]
-injectee = ["cc", "bindgen"]
+injectee = ["cc", "bindgen", "embed-resource"]
 
 [build-dependencies]
 cmake = { version = "0.1.50", optional = true }
@@ -23,3 +23,6 @@ bindgen = { version = "0.69.1", optional = true }
 
 [dependencies]
 link-cplusplus = { version = "1.0", optional = true }
+
+[target.'cfg(windows)'.build-dependencies]
+embed-resource = { version = "2.4.1", optional = true }

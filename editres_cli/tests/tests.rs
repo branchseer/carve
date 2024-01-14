@@ -23,7 +23,11 @@ fn build_testbin_once() {
 
 fn testbin_command(name: &str) -> Command {
     build_testbin_once();
-    Command::new(format!("{}/release/{}", env!("CARGO_TARGET_TMPDIR"), name))
+    let mut path = format!("{}/release/{}", env!("CARGO_TARGET_TMPDIR"), name);
+    if cfg!(windows) {
+        path.push_str(".exe");
+    }
+    Command::new(path)
 }
 
 fn temp_path() -> PathBuf {
