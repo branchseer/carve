@@ -3,6 +3,7 @@
 #include <string>
 #include <LIEF/logging.hpp>
 #include <mutex>
+#include <cstring>
 
 static inline std::vector<uint8_t> buf2vector(PostjectorBuffer buffer) {
   return {buffer.head, buffer.head + buffer.size};
@@ -71,7 +72,7 @@ extern "C" {
       return {static_cast<PostjectorInjectResultType>(result.type), data, is_macho };
     } catch (const std::exception& ex) {
       const char* err_msg = ex.what();
-      std::vector<uint8_t> err_msg_vec(err_msg, err_msg + strlen(err_msg));
+      std::vector<uint8_t> err_msg_vec(err_msg, err_msg + std::strlen(err_msg));
       return { POSTJECTOR_INJECT_ERROR, new OwnedPostjectorBuffer_s { std::move(err_msg_vec) } };
     } catch (...) {
       return {POSTJECTOR_INJECT_ERROR};
