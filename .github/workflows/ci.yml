@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        shell: ${{ contains(matrix.target, 'windows-gnu') && 'msys2_shell.cmd -use-full-path {0}' || 'bash' }}
+        shell: ${{ contains(matrix.target, 'windows-gnu') && 'msys2 -use-full-path {0}' || 'bash' }}
     steps:
     - uses: actions/checkout@v3
       with:
