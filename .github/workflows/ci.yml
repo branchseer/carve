@@ -19,39 +19,16 @@ jobs:
             target: x86_64-pc-windows-msvc
           - os: windows-2019
             target: i686-pc-windows-msvc
-          - os: windows-2019
-            target: x86_64-pc-windows-gnu
-          - os: windows-2019
-            target: i686-pc-windows-gnu
           - os: macos-latest
             target: x86_64-apple-darwin
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: ${{ contains(matrix.target, 'windows-gnu') && 'msys2 -use-full-path {0}' || 'bash' }}
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - uses: dtolnay/rust-toolchain@1.75.0
-    - uses: msys2/setup-msys2@v2
-      with:
-        msystem: mingw64
-        install: >-
-          mingw-w64-x86_64-gcc
-          mingw-w64-x86_64-cmake
-          mingw-w64-x86_64-clang
-      if: ${{ matrix.target == 'x86_64-pc-windows-gnu' }}
-    - uses: msys2/setup-msys2@v2
-      with:
-        msystem: mingw32
-        install: >-
-          mingw-w64-i686-gcc
-          mingw-w64-i686-cmake
-          mingw-w64-i686-clang
-      if: ${{ matrix.target == 'i686-pc-windows-gnu' }}
     - name: Build
       run: |
         rustup target add ${{ matrix.target }}
