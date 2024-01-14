@@ -1,6 +1,5 @@
 use editres_cli::{inject, list};
 use std::io::{stderr, Write};
-use std::mem::size_of;
 use std::sync::Once;
 use std::vec;
 use std::{
@@ -208,14 +207,9 @@ fn test_duplicated_resource_declarations() {
 }
 
 #[test]
+#[cfg_attr(target_pointer_width = "32", ignore)]
 fn test_large_resource() {
-    let mut large_resource_size = 1 * 1024 * 1024 * 1024;
-    if size_of::<usize>() <= 4 {
-        // Inject operation for 1 GB consumes too much memory that 32bit targets can't handle.
-        // Cutting it to half.
-        large_resource_size /= 2;
-    }
-    let large_resource = vec![0u8; large_resource_size];
+    let large_resource = vec![0u8; 1 * 1024 * 1024 * 1024];
 
     let single_command = testbin_command("single");
 
