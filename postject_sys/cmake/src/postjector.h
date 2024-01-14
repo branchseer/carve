@@ -17,9 +17,11 @@ typedef struct {
   size_t size;
 } PostjectorBuffer;
 
+typedef struct OwnedPostjectorBuffer_s* PostjectorOwnedBuffer;
+
 typedef struct {
   PostjectorInjectResultType type;
-  PostjectorBuffer data;
+  PostjectorOwnedBuffer data;
   char is_macho;
 } PostjectorInjectResult;
 
@@ -32,7 +34,9 @@ PostjectorInjectResult postjector_inject(
     const char* pe_resource_name,
     char override
 );
-void postjector_buffer_free(PostjectorBuffer buffer);
+
+PostjectorBuffer postjector_owned_buffer_data(const PostjectorOwnedBuffer buf);
+void postjector_owned_buffer_free(PostjectorOwnedBuffer buf);
 
 #ifdef __cplusplus
 }

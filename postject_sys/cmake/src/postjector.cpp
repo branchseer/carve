@@ -8,7 +8,16 @@ static inline std::vector<uint8_t> buf2vector(PostjectorBuffer buffer) {
   return {buffer.head, buffer.head + buffer.size};
 }
 
+struct OwnedPostjectorBuffer_s {
+  std::vector<uint8_t> vec;
+};
+
 extern "C" {
+  PostjectorBuffer postjector_owned_buffer_data(const PostjectorOwnedBuffer buf) {
+    return { buf->vec.data(), buf->vec.size() };
+  }
+  void postjector_owned_buffer_free(PostjectorOwnedBuffer buf) { delete buf; }
+
   PostjectorInjectResultType POSTJECTOR_INJECT_ALREADY_EXISTS =
       static_cast<PostjectorInjectResultType>(
           postject::InjectResultType::kAlreadyExists);
@@ -55,18 +64,17 @@ extern "C" {
       case postject::ExecutableFormat::kUnknown:
         return {POSTJECTOR_INJECT_UNKNOWN_EXECUTABLE_FORMAT};
       }
-      PostjectorBuffer data;
+      PostjectorOwnedBuffer data = nullptr;
       if (result.type == postject::InjectResultType::kSuccess) {
-        data.size = result.output.size();
-        data.head = new uint8_t[data.size];
-        std::copy(result.output.begin(), result.output.end(), data.head);
+        data = new OwnedPostjectorBuffer_s { std::move(result.output) };
       }
       return {static_cast<PostjectorInjectResultType>(result.type), data, is_macho };
+    } catch (const std::exception& ex) {
+      const char* err_msg = ex.what();
+      std::vector<uint8_t> err_msg_vec(err_msg, err_msg + strlen(err_msg));
+      return { POSTJECTOR_INJECT_ERROR, new OwnedPostjectorBuffer_s { std::move(err_msg_vec) } };
     } catch (...) {
       return {POSTJECTOR_INJECT_ERROR};
     }
   }
-
-  void postjector_buffer_free(PostjectorBuffer buffer) { delete[] buffer.head; }
-
 }
