@@ -10,6 +10,26 @@ use postject_sys::postjectee::{postject_options, postjectee_find_resource};
 #[doc(hidden)]
 pub use const_format::concatcp;
 
+/// Declares a resource that can be injected after build.
+/// 
+/// This macro yields an expression of type `Option<&'static [u8]>`, which is
+/// - `None` at first,
+/// - and becomes `Some(data)` once the resource is injected into the final executable using
+///   - [`injector::inject`](crate::injector::inject), or
+///   - `editres` command from `editres_cli`.
+/// 
+/// 
+/// # Example
+/// ```rust
+/// # use editres::resource;
+/// # fn main() {
+/// if let Some(res) = resource!("my_res") {
+///     println!("{:?}", res);
+/// } else {
+///     println!("my_res hasn't be injected");
+/// }
+/// # }
+/// ```
 #[macro_export]
 macro_rules! resource {
     ($name: literal) => {{

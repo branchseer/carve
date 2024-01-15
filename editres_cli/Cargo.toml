@@ -3,6 +3,10 @@ name = "editres_cli"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "editres"
+path = "src/main.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -10,7 +14,7 @@ editres = { path = "../editres", version = "0.1", default-features = false, feat
     "injector",
 ] }
 anyhow = "1"
-
+clap = { version = "4", features = ["derive"] }
 
 [dev-dependencies]
 tempfile = "3.9"

@@ -70,6 +70,17 @@ pub(crate) fn list_for_injection<'a>(
     Ok(resources)
 }
 
+/// Lists declared resources and whether they have been injected.
+/// # Example
+/// ```rust
+/// # use editres::injector::list;
+/// # let _ = || -> anyhow::Result<()> {
+/// let executable_buffer = std::fs::read("a.out")?;
+/// let resources = list(&executable_buffer)?;
+/// assert_eq!(resources, &[("my_res".to_string(), false)]);
+/// # Ok(())
+/// # };
+/// ```
 pub fn list(executable_buffer: &[u8]) -> anyhow::Result<Vec<(String, bool)>> {
     let resources = list_for_injection(&executable_buffer)?;
 

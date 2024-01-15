@@ -47,6 +47,18 @@ impl Deref for OwnedPostInjectorBuffer {
     }
 }
 
+/// Injects resource data into an executable.
+/// 
+/// # Example
+/// ```rust
+/// # use editres::injector::inject;
+/// # let _ = || -> anyhow::Result<()> {
+/// let mut executable_buffer = std::fs::read("a.out")?;
+/// inject(&mut executable_buffer, "my_res", b"res_content")?;
+/// std::fs::write("a.out", &executable_buffer)?;
+/// # Ok(())
+/// # };
+/// ```
 pub fn inject(
     executable_buffer: &mut Vec<u8>,
     resource_name: &str,

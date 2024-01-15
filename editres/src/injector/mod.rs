@@ -1,3 +1,5 @@
+//! APIs for inspecting and injecting resources 
+
 mod inject;
 mod list;
 
