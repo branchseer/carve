@@ -23,15 +23,6 @@ fn main() {
             println!("cargo:rerun-if-changed=src/dummy_win_res.rc");
             embed_resource::compile("src/dummy_win_res.rc", embed_resource::NONE);
         }
-
-        let api_bindings = bindgen::builder()
-            .header("src/postjectee.h")
-            .allowlist_function("postjectee_.*")
-            .generate()
-            .unwrap();
-        api_bindings
-            .write_to_file(out_path.join("postjectee_bindings.rs"))
-            .unwrap();
     }
 
     #[cfg(feature = "injector")]
@@ -49,16 +40,5 @@ fn main() {
         println!("cargo:rustc-link-lib=static=postjector");
         println!("cargo:rustc-link-lib=static=postject");
         println!("cargo:rustc-link-lib=static=LIEF");
-
-        let postjector_bindings = bindgen::builder()
-            .header("cmake/src/postjector.h")
-            .prepend_enum_name(false)
-            .allowlist_var("POSTJECTOR_.*")
-            .allowlist_function("postjector_.*")
-            .generate()
-            .unwrap();
-        postjector_bindings
-            .write_to_file(out_path.join("postjector_bindings.rs"))
-            .unwrap();
     }
 }
