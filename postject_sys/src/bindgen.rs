@@ -21,7 +21,7 @@ impl OnDiskBindings {
     fn assert(&self) {
         let actual = fs::read_to_string(self.full_path()).unwrap();
         let expected = self.bindings.to_string();
-        assert_eq!(actual, expected);
+        pretty_assertions::assert_str_eq!(actual, expected);
     }
 }
 
