@@ -28,6 +28,7 @@ impl OnDiskBindings {
 fn postjector_bindings() -> OnDiskBindings {
     OnDiskBindings {
         bindings: bindgen::builder()
+            .formatter(bindgen::Formatter::Prettyplease)
             .header(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/cmake/src/postjector.h"
@@ -58,6 +59,7 @@ fn write_postjector_bindings() {
 fn postjectee_bindings() -> OnDiskBindings {
     OnDiskBindings {
         bindings: bindgen::builder()
+        .formatter(bindgen::Formatter::Prettyplease)
         .header("src/postjectee.h")
         .allowlist_function("postjectee_.*")
         .layout_tests(false)
