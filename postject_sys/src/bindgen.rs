@@ -2,8 +2,7 @@
 
 use bindgen::Bindings;
 use std::{
-    ffi::OsStr,
-    fs, io,
+    fs,
     path::{Path, PathBuf},
 };
 
@@ -55,16 +54,15 @@ fn write_postjector_bindings() {
     postjector_bindings().write()
 }
 
-
 fn postjectee_bindings() -> OnDiskBindings {
     OnDiskBindings {
         bindings: bindgen::builder()
-        .formatter(bindgen::Formatter::Prettyplease)
-        .header("src/postjectee.h")
-        .allowlist_function("postjectee_.*")
-        .layout_tests(false)
-        .generate()
-        .unwrap(),
+            .formatter(bindgen::Formatter::Prettyplease)
+            .header("src/postjectee.h")
+            .allowlist_function("postjectee_.*")
+            .layout_tests(false)
+            .generate()
+            .unwrap(),
         path: PathBuf::from("src/postjectee.rs"),
     }
 }
