@@ -21,6 +21,4 @@ injector = ["postject_sys/injector", "anyhow", "apple-codesign"]
 postject_sys = { path = "../postject_sys", version = "0.1" }
 const_format = { version = "0.2.32", optional = true }
 anyhow = { version = "1", optional = true }
-
-# 0.25+ can't compile with default-features off. TODO: submit a fix PR
-apple-codesign = { version = "0.24", default-features = false, optional = true }
+apple-codesign = { version = "0.27", default-features = false, optional = true }
