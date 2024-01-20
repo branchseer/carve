@@ -5,20 +5,20 @@ use std::{
     slice,
 };
 
-use postject_sys::postjectee::{postject_options, postjectee_find_resource};
+use postject_sys::postjectee::{postjectee_find_resource, postjectee_options};
 
 #[doc(hidden)]
 pub use const_format::concatcp;
 
 /// Declares a resource that can be injected after build.
-/// 
+///
 /// This macro yields an expression of type `Option<&'static [u8]>`, which is
 /// - `None` at first,
 /// - and becomes `Some(data)` once the resource is injected into the final executable using
 ///   - [`injector::inject`](crate::injector::inject), or
 ///   - `editres` command from `editres_cli`.
-/// 
-/// 
+///
+///
 /// # Example
 /// ```rust
 /// # use editres::resource;
@@ -51,9 +51,8 @@ unsafe fn find_resource(id: NonZeroU16) -> Option<&'static [u8]> {
     let res_head = postjectee_find_resource(
         null(), // name is ignored now that we specific detailed names in options
         &mut size,
-        &postject_options {
+        postjectee_options {
             elf_section_name: elf_section_name(id).as_ptr(),
-            macho_framework_name: null(),
             macho_section_name: macho_section_name(id).as_ptr(),
             macho_segment_name: macho_segment_name(id).as_ptr(),
             pe_resource_name: pe_resource_name(id).as_ptr(),

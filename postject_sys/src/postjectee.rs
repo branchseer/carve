@@ -2,9 +2,8 @@
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct postject_options {
+pub struct postjectee_options {
     pub elf_section_name: *const ::std::os::raw::c_char,
-    pub macho_framework_name: *const ::std::os::raw::c_char,
     pub macho_section_name: *const ::std::os::raw::c_char,
     pub macho_segment_name: *const ::std::os::raw::c_char,
     pub pe_resource_name: *const ::std::os::raw::c_char,
@@ -13,6 +12,6 @@ extern "C" {
     pub fn postjectee_find_resource(
         name: *const ::std::os::raw::c_char,
         size: *mut usize,
-        options: *const postject_options,
+        options: postjectee_options,
     ) -> *const ::std::os::raw::c_void;
 }
