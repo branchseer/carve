@@ -29,6 +29,9 @@ jobs:
       with:
         submodules: true
     - uses: dtolnay/rust-toolchain@1.75.0
+    - name: Install 32-bit LLVM
+      run: choco install llvm --forcex86 --force
+      if: matrix.target == 'i686-pc-windows-msvc'
     - name: Build
       run: |
         rustup target add ${{ matrix.target }}
