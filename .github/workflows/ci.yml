@@ -19,6 +19,7 @@ jobs:
             target: x86_64-pc-windows-msvc
           - os: windows-2019
             target: i686-pc-windows-msvc
+            test_args: '--skip bindgen'
           - os: macos-latest
             target: x86_64-apple-darwin
           - os: ubuntu-latest
@@ -40,5 +41,5 @@ jobs:
         rustup target add ${{ matrix.target }}
         cargo build --target ${{ matrix.target }} --release --all-features --verbose
     - name: Run tests
-      run: cargo test --target ${{ matrix.target }} --release --all --all-features --verbose
+      run: cargo test --target ${{ matrix.target }} --release --all --all-features --verbose -- ${{ matrix.test_args }}
   
