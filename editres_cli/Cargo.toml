@@ -1,6 +1,6 @@
 [package]
 name = "editres_cli"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Command line tool for injecting data into executables that use editres"
 license = "MPL-2.0"
