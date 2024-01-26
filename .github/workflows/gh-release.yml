@@ -13,3 +13,7 @@ jobs:
       uses: dawidd6/action-download-artifact@v3
       with:
         workflow: ci.yml
+        path: artifacts
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "artifacts/*"
