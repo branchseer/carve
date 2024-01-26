@@ -56,8 +56,7 @@ jobs:
         path: |
           ~/.cargo
           target/
-        key: ${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: ${{ matrix.target }}
+        key: ${{ matrix.target }}
     - name: Build
       id: build
       run: |
