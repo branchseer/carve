@@ -29,11 +29,13 @@ jobs:
             build_only: true
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
-        submodules: true
+        submodules: 'recursive'
     - uses: dtolnay/rust-toolchain@1.75.0
     - name: Enable VS Dev Prompt
       uses: ilammy/msvc-dev-cmd@v1
@@ -41,9 +43,12 @@ jobs:
     - name: Install 32-bit LLVM
       run: choco install llvm --forcex86 --force
       if: matrix.target == 'i686-pc-windows-msvc'
-    - name: Install packages for cross build
+    - name: Install packages for cross bindgen
       run: sudo apt-get install -y gcc-multilib
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.target == 'x86_64-unknown-linux-gnu'
+    - name: Install packages for cross compile
+      run: sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+      if: matrix.target == 'aarch64-unknown-linux-gnu'
     - name: Build
       id: build
       run: |
