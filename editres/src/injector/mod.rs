@@ -1,4 +1,4 @@
-//! APIs for inspecting and injecting resources 
+//! APIs for injecting or listing resources in executables
 
 mod inject;
 mod list;

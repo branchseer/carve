@@ -17,34 +17,31 @@ Embed data into executables after build.
 ### 1. Declare resources using `editres::resource!`
 
 ```rust
-// hello_editres/src/main.ts
-
-use editres::resource
+use editres::resource;
 use std::str::from_utf8;
 
-fn main() {
-    const res = resource!('my_res'); // Option<&'static [u8]>
-    if let Some(res) = res {
-        println!("{}", from_utf8(res).unwrap());
-    } else {
-        println!("my_res is not embedded yet");
-    }
+# fn main() {
+let res = resource!("my_res"); // Option<&'static [u8]>
+if let Some(res) = res {
+    println!("{}", from_utf8(res).unwrap());
+} else {
+    println!("my_res is not injected yet");
 }
+# }
 ```
 
-```sh
-> cargo run
-my_res is not embedded yet
-```
+### 2. Inject data in the executable
 
-### 2. Embed data into the executable with editres cli or injector API.
+You can inject data in executables using library `editres` or command line from `editres_cli`.
 
-```
-> cargo install editres_cli
-```
+- Library usage:
+    1. Add `editres` as a dependency with feature `injector` enabled,
+    2. Refer to [`injector::list`](https://docs.rs/editres/latest/editres/injector/fn.list.html).
+- Command line usage:
+    1. `cargo install editres_cli`, or download from the releases.
+    2. Get command line help using `editres help inject`
 
-```
-> echo "embedded data" | editres edit target/debug/hello_editres --name my_res --output hello_editres2
-> ./hello_editres2
-embedded data
-```
+# Notes
+
+editres is based on Node.js' single executable application implementation: [postject](https://github.com/nodejs/postject/).
+

@@ -207,7 +207,7 @@ fn test_duplicated_resource_declarations() {
 }
 
 #[test]
-#[cfg_attr(target_pointer_width = "32", ignore)]
+#[cfg_attr(target_pointer_width = "32", ignore)] 
 fn test_large_resource() {
     let large_resource = vec![0u8; 1 * 1024 * 1024 * 1024];
 

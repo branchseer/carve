@@ -1,3 +1,6 @@
+#![doc = include_str!("../README.md")]
+#![doc(hidden)]
+
 use std::{
     fs::{self, OpenOptions},
     io::{self, Write as _},
@@ -11,7 +14,7 @@ pub fn list<P: AsRef<Path>>(path: P) -> anyhow::Result<Vec<(String, bool)>> {
     base_list(&content)
 }
 
-fn write_executable(path: &mut PathBuf, content: &[u8]) -> io::Result<()> {
+pub fn write_executable(path: &mut PathBuf, content: &[u8]) -> io::Result<()> {
     let mut open_options = OpenOptions::new();
     open_options.create(true).write(true);
     #[cfg(unix)]
