@@ -2,6 +2,11 @@
 name = "editres_cli"
 version = "0.1.0"
 edition = "2021"
+description = "Command line tool for injecting data into executables that use editres"
+license = "MPL-2.0"
+authors = ["branchseer <dk4rest@gmail.com>"]
+homepage = "https://github.com/branchseer/editres"
+repository = "https://github.com/branchseer/editres"
 
 [[bin]]
 name = "editres"

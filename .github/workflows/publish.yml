@@ -1,43 +1,21 @@
 name: Publish
 
 on:
-  workflow_dispatch:
-    inputs:
-      bumplevel:
-        description: cargo-release bump level
-        required: true
-        default: 'release'
+  workflow_dispatch
 
 jobs:
-  build_cli:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-2019
-            target: x86_64-pc-windows-msvc
-          - os: windows-2019
-            target: i686-pc-windows-msvc
-          - os: macos-latest
-            target: x86_64-apple-darwin
-          - os: macos-latest
-            target: aarch64-apple-darwin
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Build
-      run: |
-        rustup target add ${{ matrix.target }}
-        zipname=$(python3 scripts/ci_build_cli.py ${{ matrix.target }})
-        echo "::set-output name=zipname::$zipname"
-      id: build
-    - name: Upload
-      uses: actions/upload-artifact@v4
+    - uses: taiki-e/install-action@v2
       with:
-        name: ${{ steps.build.outputs.zipname }}
-        path: ${{ steps.build.outputs.zipname }}
+        tool: cargo-release@0.25.4
+    - name: Download artifacts
+      uses: dawidd6/action-download-artifact@v3
+      with:
+        workflow: ci.yml
+    - name: cargo release
+      run: cargo release --workspace --exclude testbin --unpublished --all-features --no-verify --execute --no-publish --no-confirm --token ${{ secrets.CRATES_IO_TOKEN }}

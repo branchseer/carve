@@ -1,0 +1,14 @@
+name: GitHub Release
+
+
+on:
+  push:
+    tags: editres_cli-v.*
+
+jobs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts
+      uses: dawidd6/action-download-artifact@v3
+      with:
+        workflow: ci.yml

@@ -5,7 +5,7 @@ edition = "2021"
 homepage = "https://github.com/branchseer/editres"
 repository = "https://github.com/branchseer/editres"
 license = "MPL-2.0"
-description = "`include_bytes!` after build"
+description = "Embed data into executables after build"
 authors = ["branchseer <dk4rest@gmail.com>"]
 
 [package.metadata.docs.rs]
