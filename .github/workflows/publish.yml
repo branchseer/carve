@@ -33,7 +33,7 @@ jobs:
     - name: Build
       run: |
         rustup target add ${{ matrix.target }}
-        zipname = $(python3 scripts/ci_build_cli.py ${{ matrix.target }})
+        zipname=$(python3 scripts/ci_build_cli.py ${{ matrix.target }})
         echo "::set-output name=zipname::$zipname"
       id: build
     - name: Upload

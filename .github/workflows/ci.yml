@@ -42,9 +42,18 @@ jobs:
       run: sudo apt-get install -y gcc-multilib
       if: matrix.os == 'ubuntu-latest'
     - name: Build
+      id: build
+      shell: bash
       run: |
         rustup target add ${{ matrix.target }}
         cargo build --target ${{ matrix.target }} --release --all-features --verbose
+        zipname=$(python3 scripts/ci_build_cli.py ${{ matrix.target }})
+        echo "::set-output name=zipname::$zipname"
+    - name: Upload editres_cli
+      uses: actions/upload-artifact@v4
+      with:
+        name: editres_cli_-${{ target }}
+        path: ${{ steps.build.outputs.zipname }}
     - name: Run tests
       run: cargo test --target ${{ matrix.target }} --release --all --all-features --verbose
       if: matrix.build_only != true
