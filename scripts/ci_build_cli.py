@@ -40,4 +40,4 @@ shutil.make_archive(
     os.path.basename(executable_path),
 )
 
-print(zip_name + ".zip")
+print(f"::set-output name=zipname::{zip_name}.zip")

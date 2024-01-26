@@ -29,9 +29,6 @@ jobs:
             build_only: true
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            build_only: true
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -44,21 +41,19 @@ jobs:
     - name: Install 32-bit LLVM
       run: choco install llvm --forcex86 --force
       if: matrix.target == 'i686-pc-windows-msvc'
-    - name: Install gcc-multilib for cross-bindgen
+    - name: Install packages for cross build
       run: sudo apt-get install -y gcc-multilib
       if: matrix.os == 'ubuntu-latest'
     - name: Build
-      shell: bash
       id: build
       run: |
         rustup target add ${{ matrix.target }}
         cargo build --target ${{ matrix.target }} --release --all-features --verbose
-        zipname=$(python3 scripts/ci_build_cli.py ${{ matrix.target }})
-        echo "::set-output name=zipname::$zipname"
+        python3 scripts/ci_build_cli.py ${{ matrix.target }}
     - name: Upload editres_cli
       uses: actions/upload-artifact@v4
       with:
-        name: editres_cli_-${{ matrix.target }}
+        name: editres_cli_${{ matrix.target }}
         path: ${{ steps.build.outputs.zipname }}
     - name: Run tests
       run: cargo test --target ${{ matrix.target }} --release --all --all-features --verbose
