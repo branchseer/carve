@@ -4,6 +4,7 @@ on:
   workflow_dispatch
 
 jobs:
+  cargo-release:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -13,9 +14,5 @@ jobs:
     - uses: taiki-e/install-action@v2
       with:
         tool: cargo-release@0.25.4
-    - name: Download artifacts
-      uses: dawidd6/action-download-artifact@v3
-      with:
-        workflow: ci.yml
     - name: cargo release
-      run: cargo release --workspace --exclude testbin --unpublished --all-features --no-verify --execute --no-publish --no-confirm --token ${{ secrets.CRATES_IO_TOKEN }}
+      run: cargo release --workspace --exclude testbin --unpublished --all-features --no-verify --execute --no-publish --no-confirm

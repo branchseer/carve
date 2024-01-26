@@ -6,6 +6,7 @@ on:
     tags: editres_cli-v.*
 
 jobs:
+  editres_cli_release:
     runs-on: ubuntu-latest
     steps:
     - name: Download artifacts
