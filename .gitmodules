@@ -1,3 +1,0 @@
-[submodule "postject"]
-	path = postject_sys/cmake/postject
-	url = https://github.com/branchseer/postject
