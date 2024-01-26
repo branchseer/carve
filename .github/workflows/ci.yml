@@ -50,13 +50,19 @@ jobs:
     - name: Install packages for cross compile
       run: sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
       if: matrix.target == 'aarch64-unknown-linux-gnu'
+    - name: Get submodule status for cache key
+      id: submodule_stat
+      shell: bash
+      run: |
+        echo -n "postject_submodule_hash=" >> "$GITHUB_OUTPUT"
+        git rev-parse :postject_sys/cmake/postject >> "$GITHUB_OUTPUT"
     - name: Setup cache
       uses: actions/cache@v3
       with:
         path: |
           ~/.cargo
           target/
-        key: ${{ matrix.target }}
+        key: ${{ matrix.target }}-postject:${{ steps.submodule_stat.outputs.postject_submodule_hash }}
     - name: Build
       id: build
       run: |
