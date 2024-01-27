@@ -3,7 +3,8 @@ name: GitHub Release
 
 on:
   push:
-    tags: editres_cli-v.*
+    tags:
+      - editres_cli-v*
 
 jobs:
   editres_cli_release:
