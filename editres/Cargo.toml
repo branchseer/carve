@@ -1,6 +1,6 @@
 [package]
 name = "editres"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 homepage = "https://github.com/branchseer/editres"
 repository = "https://github.com/branchseer/editres"
