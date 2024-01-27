@@ -31,5 +31,5 @@ jobs:
       run: |
         git config --global user.email "dk4rest@gmail.com"
         git config --global user.name "branchseer"
-        release_output = $(cargo release --workspace --exclude testbin --unpublished --all-features --allow-branch '*' --no-verify --execute --no-confirm)
+        release_output=$(cargo release --workspace --exclude testbin --unpublished --all-features --allow-branch '*' --no-verify --execute --no-confirm)
         echo release_output $release_output
