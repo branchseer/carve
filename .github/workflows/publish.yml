@@ -33,9 +33,11 @@ jobs:
         git config --global user.email "dk4rest@gmail.com"
         git config --global user.name "branchseer"
         cargo release --workspace --exclude testbin --unpublished --all-features --allow-branch '*' --no-verify --execute --no-confirm
+        echo tag=$(git tag --points-at HEAD | head -n 1) >> $GITHUB_OUTPUT
         echo new_tags=$(git tag --points-at HEAD) >> $GITHUB_OUTPUT
     - name: GitHub release
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
         name: ${{ steps.release.outputs.new_tags }}
+        tag: ${{ steps.release.outputs.tag }}
         artifacts: "${{ runner.temp }}/artifacts/*"
