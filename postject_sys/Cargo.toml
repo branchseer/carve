@@ -8,8 +8,7 @@ authors = ["branchseer <dk4rest@gmail.com>"]
 homepage = "https://github.com/branchseer/editres"
 repository = "https://github.com/branchseer/editres"
 exclude = [
-    "cmake/postject/vendor/lief/doc",
-    "cmake/postject/vendor/lief/third-party",
+    "cmake/postject/vendor/lief/doc"
 ]
 
 [features]
