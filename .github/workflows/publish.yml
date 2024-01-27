@@ -1,21 +1,29 @@
 name: Publish
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      ref:
+        required: false
 
 jobs:
   cargo-release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
         submodules: true
+        ref: ${{ github.event.inputs.ref }}
     - uses: taiki-e/install-action@v2
       with:
         tool: cargo-release@0.25.4
     - name: cargo release
+      env:
+        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       run: |
         git config --global user.email "dk4rest@gmail.com"
         git config --global user.name "branchseer"
-        cargo release --workspace --exclude testbin --unpublished --all-features --no-verify --execute --no-publish --no-confirm
+        cargo release --workspace --exclude testbin --unpublished --all-features --allow-branch '*' --no-verify --execute --no-confirm
