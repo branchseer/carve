@@ -26,10 +26,16 @@ jobs:
       with:
         tool: cargo-release@0.25.4
     - name: cargo release
+      id: release
       env:
         CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       run: |
         git config --global user.email "dk4rest@gmail.com"
         git config --global user.name "branchseer"
-        release_output=$(cargo release --workspace --exclude testbin --unpublished --all-features --no-publish --allow-branch '*' --no-verify --execute --no-confirm)
-        echo release_output $release_output
+        cargo release --workspace --exclude testbin --unpublished --all-features --allow-branch '*' --no-verify --execute --no-confirm
+        echo new_tags=$(git tag --points-at HEAD) >> $GITHUB_OUTPUT
+    - name: GitHub release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: ${{ steps.release.outputs.new_tags }}
+        artifacts: "${{ runner.temp }}/artifacts/*"
