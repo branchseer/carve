@@ -36,7 +36,7 @@ You can inject data in executables using library `editres` or command line from 
 
 - Library usage:
     1. Add `editres` as a dependency with feature `injector` enabled,
-    2. Refer to [`injector::list`](https://docs.rs/editres/latest/editres/injector/fn.list.html).
+    2. Refer to [`injector::inject`](https://docs.rs/editres/latest/editres/injector/fn.inject.html).
 - Command line usage:
     1. `cargo install editres_cli`, or download from the releases.
     2. Get command line help using `editres help inject`
