@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 #![cfg(test)]
 
 use bindgen::Builder;
@@ -27,7 +32,8 @@ impl OnDiskBindings {
             "arm64-apple-ios",
         ];
         let mut sources = TARGETS.iter().copied().map(|target| {
-            let source = self.binding_builder
+            let source = self
+                .binding_builder
                 .clone()
                 .clang_args([&format!("--target={}", target)])
                 .generate()
@@ -37,20 +43,35 @@ impl OnDiskBindings {
         });
         let baseline = sources.next().unwrap();
         for (target, source) in sources {
-            pretty_assertions::assert_str_eq!(&baseline.1, &source, "bindings are different between target {} and {}", baseline.0, target);
+            pretty_assertions::assert_str_eq!(
+                &baseline.1,
+                &source,
+                "bindings are different between target {} and {}",
+                baseline.0,
+                target
+            );
         }
-        return baseline.1
+        return baseline.1;
     }
     fn write(&self) {
         fs::write(self.full_path(), self.source()).unwrap();
     }
     fn assert(&self) {
-        let actual = fs::read_to_string(self.full_path())
-            .unwrap()
-            .replace('\r', ""); // Git on Windows might insert CR at line endings
-        let expected = self.source();
+        let mut actual = fs::read_to_string(self.full_path()).unwrap();
+
+        let mut expected = self.source();
+        normalize_source(&mut actual);
+        normalize_source(&mut expected);
         pretty_assertions::assert_str_eq!(actual, expected);
     }
+}
+
+fn normalize_source(source: &mut String) {
+    let lines: Vec<&str> = source
+        .lines() //  Git on Windows might insert CR at line endings. Ignore differences between LF and CRLF.
+        .skip_while(|line| line.starts_with("/*") || line.starts_with(" *")) // Remove header comments
+        .collect();
+    *source = lines.join("\n");
 }
 
 fn postjector_bindings() -> OnDiskBindings {

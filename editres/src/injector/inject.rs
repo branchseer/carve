@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 use super::list::{list_for_injection, ResourceEntry};
 use crate::names::{elf_section_name, macho_section_name, macho_segment_name, pe_resource_name};
 use anyhow::Context;
