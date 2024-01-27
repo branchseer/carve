@@ -43,4 +43,8 @@ shutil.make_archive(
     os.path.basename(executable_path),
 )
 
-print(f"::set-output name=zipname::{zip_name}.zip")
+out = sys.stdout
+if os.environ.get('CI') != None:
+    out = open(os.environ['GITHUB_OUTPUT'], 'a')
+print(f"name=zipname::{zip_name}.zip", file=out)
+out.close()

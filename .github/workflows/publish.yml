@@ -15,4 +15,7 @@ jobs:
       with:
         tool: cargo-release@0.25.4
     - name: cargo release
-      run: cargo release --workspace --exclude testbin --unpublished --all-features --no-verify --execute --no-publish --no-confirm
+      run: |
+        git config --global user.email "dk4rest@gmail.com"
+        git config --global user.name "branchseer"
+        cargo release --workspace --exclude testbin --unpublished --all-features --no-verify --execute --no-publish --no-confirm
