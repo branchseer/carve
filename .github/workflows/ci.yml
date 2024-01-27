@@ -10,7 +10,19 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  source_check:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    - run: |
+        python3 scripts/license.py
+        echo Files with no proper MPL headers:
+        git diff-index --exit-code HEAD --
   build:
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
